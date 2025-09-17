@@ -1,12 +1,12 @@
 const db = require('../db/config');
 const {v4: uuidv4} = require('uuid');
 
-const addEmployee = async (user_id, first_name, last_name, phone_number, address, birth_date, position, department) => {
+const addEmployee = async (user_id, first_name, last_name, phone_number, address, salary, birth_date, start_date, end_date, position, department) => {
     const conn = await db.getConnection();
     try {
         const employeeId = uuidv4();
-        const query = 'INSERT INTO employees (id, first_name, last_name, phone_number, address, birth_date, position, department, updated_by, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())';
-        const [result] = await conn.promise().query(query, [employeeId, first_name, last_name, phone_number, address, birth_date, position, department, user_id]);
+        const query = 'INSERT INTO employees (id, first_name, last_name, phone_number, address, salary, birth_date, start_date, end_date, position, department, updated_by, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())';
+        const [result] = await conn.promise().query(query, [employeeId, first_name, last_name, phone_number, address, salary, birth_date, start_date, end_date, position, department, user_id]);
         return { employeeId: employeeId, fullName : first_name + ' ' + last_name};
     } catch (error) {
         console.error(error);

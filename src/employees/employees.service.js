@@ -15,8 +15,8 @@ async function getEmployeeById(id) {
     return employee;
 }
 
-async function createEmployee(user_id, first_name, last_name, phone_number, address, birth_date, position, department) {
-    const employeeId = await employeeModel.addEmployee(user_id, first_name, last_name, phone_number, address, birth_date, position, department);
+async function createEmployee(user_id, first_name, last_name, phone_number, address, salary, birth_date, start_date, end_date, position, department) {
+    const employeeId = await employeeModel.addEmployee(user_id, first_name, last_name, phone_number, address, salary, birth_date, start_date, end_date, position, department);
     return { employeeId };
 }
 

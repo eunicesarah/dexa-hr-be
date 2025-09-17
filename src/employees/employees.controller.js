@@ -26,12 +26,12 @@ async function getEmployeeById(req, res) {
 
 async function createEmployee(req, res) {
     try {
-        const { first_name, last_name, phone_number, address, birth_date, position, department } = req.body;
-        if (!first_name || !last_name || !phone_number || !address || !birth_date || !position || !department) {
+        const { first_name, last_name, phone_number, address, salary, birth_date, start_date, end_date, position, department } = req.body;
+        if (!first_name || !last_name || !phone_number || !salary || !address || !start_date || !birth_date || !position || !department) {
             return res.status(400).json({ message: 'All fields are required' });
         }
         const user_id = getTokenInfo(req.headers.authorization).id;
-        const newEmployee = await employeeService.createEmployee(user_id, first_name, last_name, phone_number, address, birth_date, position, department);
+        const newEmployee = await employeeService.createEmployee(user_id, first_name, last_name, phone_number, address, salary, birth_date, start_date, end_date, position, department);
         res.status(201).json({ message: 'Employee created successfully', employee: newEmployee });
     } catch (error) {
         res.status(500).json({ message: 'Internal server error' });
