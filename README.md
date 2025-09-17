@@ -30,7 +30,8 @@ PORT=8080
 
 5. Set up the database
 ```bash
-mysql -u root -p < database/schema.sql
+mysql -u root -p
+CREATE DATABASE dexa_hr
 ```
 
 6. Start the server
