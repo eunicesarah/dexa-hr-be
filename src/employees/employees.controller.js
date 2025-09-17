@@ -46,7 +46,6 @@ async function updateEmployee(req, res) {
         if (!first_name || !last_name || !phone_number || !address || !birth_date) {
             return res.status(400).json({ message: 'All fields are required' });
         }
-        const updateEmail =  await employeeService.updateEmployeeEmail(employeeId, email);
         if (email && updateEmail && updateEmail.status !== 200) {
             return res.status(updateEmail.status).json({ message: updateEmail.message });
         }
@@ -74,10 +73,6 @@ async function adminUpdateEmployee(req, res) {
         const { first_name, last_name, phone_number, address, birth_date, position, department, salary, is_active, start_date, end_date, email } = req.body;
         if (!first_name || !last_name || !phone_number || !address || !birth_date || !position || !department || salary === undefined || is_active === undefined || !start_date) {
             return res.status(400).json({ message: 'All fields except end_date are required' });
-        }
-        const updateEmail = email ? await employeeService.updateEmployeeEmail(employeeId, email) : null;
-        if (email && updateEmail && updateEmail.status !== 200) {
-            return res.status(updateEmail.status).json({ message: updateEmail.message });
         }
         const updatedEmployee = await employeeService.adminModifyEmployee(employeeId, first_name, last_name, phone_number, address, birth_date, position, department, salary, is_active, start_date, end_date, updated_by);
         res.json(updatedEmployee);
@@ -110,7 +105,7 @@ async function updateProfile(req, res) {
             return res.status(404).json({ message: 'Employee not found' });
         }
         if (email) {
-            const updateEmail = await employeeService.updateEmployeeEmail(employeeId, email);
+            const updateEmail = await employeeService.updateEmployeeEmail(user_id, email);
             
             if (updateEmail && updateEmail.status !== 200) {
                 return res.status(updateEmail.status).json({ message: updateEmail.message });

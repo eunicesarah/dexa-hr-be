@@ -171,11 +171,11 @@ const findEmployeeByUserId = async (user_id) => {
     }
 }
 
-const updateEmployeeEmail = async (employee_id, email) => {
+const updateEmployeeEmail = async (user_id, email) => {
     const conn = await db.getConnection();
     try {
-        const query = 'UPDATE users u LEFT JOIN employees e ON u.id = e.user_id SET u.email = ? WHERE e.id = ?';
-        await conn.promise().query(query, [email, employee_id]);
+        const query = 'UPDATE users SET email = ? WHERE id = ?';
+        await conn.promise().query(query, [email, user_id]);
         return true;
     } catch (error) {
         console.error(error);

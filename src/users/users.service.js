@@ -28,7 +28,7 @@ async function register(email, password, role, employee_id) {
     const password_hash = await bcrypt.hash(password, 10);
     const user = await userModel.addUser(email, password_hash, role);
     await employeeModel.updateEmployeeUserId(employee_id, user.id);
-    await employeeModel.updateEmployeeEmail(employee_id, email);
+    await employeeModel.updateEmployeeEmail(user.id, email);
     return { 
         message: 'User registered successfully',
         user: { id: user.id, email, role },
