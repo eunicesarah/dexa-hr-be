@@ -36,4 +36,12 @@ async function register(email, password, role, employee_id) {
     };
 }
 
-module.exports = { login, register };
+async function updateRoleUser(id, role) {
+    const updated = await userModel.updateRoleUser(id, role);
+    if (!updated) {
+        return { message: 'User not found or role unchanged', status: 400 };
+    }
+    return { message: 'User role updated successfully', status: 200 };
+}
+
+module.exports = { login, register, updateRoleUser };

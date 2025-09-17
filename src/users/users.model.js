@@ -60,9 +60,51 @@ const findUserById = async (id) => {
     }
 }
 
+const updateRoleUser = async (id, role) => {
+   const conn = await db.getConnection();
+    try {
+        const getCurrentRoleQuery = 'SELECT role FROM users WHERE id = ?';
+        const [userRows] = await conn.promise().query(getCurrentRoleQuery, [id]);
+        
+        if (userRows.length === 0) {
+            throw new Error('User not found');
+        }
+        
+        const currentRole = userRows[0].role || '';
+        let newRole;
+        
+        const findInSet =  `SELECT FIND_IN_SET(?, ?)`
+        const [findInSetResult] = await conn.promise().query(findInSet, [role, currentRole]);
+        if (findInSetResult[0]['FIND_IN_SET(?, ?)'] > 0) {
+            return { success: true, message: 'Role already assigned', newRole: currentRole };
+        }
+        if (currentRole === '') {
+            newRole = role;
+        } else {
+            newRole = `${currentRole},${role}`;
+        }
+        
+        const updateQuery = 'UPDATE users SET role = ?, updated_at = NOW() WHERE id = ?';
+        const [result] = await conn.promise().query(updateQuery, [newRole, id]);
+        
+        if (result.affectedRows === 0) {
+            throw new Error('Failed to update user role');
+        }
+        
+        return { success: true, message: 'Role updated successfully', newRole };
+    } catch (error) {
+        console.error(error);
+        throw new Error('Error updating user role');
+    } finally {
+        conn.release();
+    }
+}
+
+
 module.exports = {
     addUser,
     findUserByEmail,
     findUserById,
-    deleteUser
+    deleteUser,
+    updateRoleUser
 };

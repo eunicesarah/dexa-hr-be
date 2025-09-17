@@ -39,4 +39,29 @@ async function register(req, res) {
     }
 }
 
-module.exports = { login, register };
+async function updateRoleUser(req, res) {
+    try {
+        const { role } = req.body;
+        const employee_id  = req.params.id;
+        if (!employee_id) {
+            return res.status(400).json({ message: 'Employee ID is required' });
+        }
+        if (!role) {
+            return res.status(400).json({ message: 'Role is required' });
+        }
+        const userId = await employeeService.getUserIdByEmployeeId(employee_id);
+        if (!userId) {
+            return res.status(400).json({ message: 'Invalid employee ID' });
+        }
+        const result = await userService.updateRoleUser(userId, role);
+        if (result.status && result.status !== 200) {
+            return res.status(result.status).json({ message: result.message });
+        }
+        res.json({ message: result.message });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+module.exports = { login, register, updateRoleUser };
