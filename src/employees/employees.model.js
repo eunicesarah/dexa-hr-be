@@ -212,6 +212,23 @@ async function updateEmployeeProfile(employeeId, first_name, last_name, phone_nu
     }
 }
 
+async function findUserIdByEmployeeId(employee_id) {
+    const conn = await db.getConnection();
+    try {
+        const query = 'SELECT user_id FROM employees WHERE id = ?';
+        const [rows] = await conn.promise().query(query, [employee_id]);
+        if (rows.length === 0) {
+            return null; // Employee not found
+        }
+        return rows[0].user_id;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Error finding user ID by employee ID');
+    } finally {
+        conn.release();
+    }
+}
+
 module.exports = {
     addEmployee,
     findEmployeeById,
@@ -225,5 +242,6 @@ module.exports = {
     findEmployeeByUserId,
     updateEmployeeEmail,
     findTotalEmployees,
-    updateEmployeeProfile
+    updateEmployeeProfile,
+    findUserIdByEmployeeId
 };

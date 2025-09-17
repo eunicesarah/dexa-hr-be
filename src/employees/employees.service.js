@@ -57,4 +57,12 @@ async function updateEmployeeEmail(employeeId, email) {
     return { status: 200, message: 'Email updated successfully' };
 }
 
-module.exports = { getListEmployee, getEmployeeById, createEmployee, modifyEmployee, removeEmployee, adminModifyEmployee, getEmployeeIdByUserId, getMyEmployeeProfile, modifyProfile, updateEmployeeEmail };
+async function getUserIdByEmployeeId(employeeId) {
+    const userId = await employeeModel.findUserIdByEmployeeId(employeeId);
+    if (!userId) {
+        return null;
+    }
+    return userId;      
+}
+
+module.exports = { getListEmployee, getEmployeeById, createEmployee, modifyEmployee, removeEmployee, adminModifyEmployee, getEmployeeIdByUserId, getMyEmployeeProfile, modifyProfile, updateEmployeeEmail, getUserIdByEmployeeId };
