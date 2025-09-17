@@ -67,3 +67,14 @@ npm start
 | GET | `/attendences/employee/:employee_id` | Admin | Get attendance by employee ID | 
 | GET | `/attendences/my-attendance` | Employee | Get logged-in user's attendance |
 | GET | `/attendences/today` | Employee | Check if user clocked in today |
+
+### Existing user
+- Admin
+  - email: admin@example.com
+  - Password: admin123
+- Employee 1
+  - email: employee1@example.com
+  - Password: employee123
+- Employee 2
+  - email: employee2@example.com
+  - Password: employee123
