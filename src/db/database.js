@@ -53,7 +53,7 @@ async function tables()  {
                 id VARCHAR(36) NOT NULL PRIMARY KEY,
                 email VARCHAR(255) NOT NULL UNIQUE,
                 password_hash VARCHAR(255) NOT NULL,
-                role ENUM('EMPLOYEE','ADMIN') NOT NULL,
+                role SET('EMPLOYEE','ADMIN') NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP NULL
             );
